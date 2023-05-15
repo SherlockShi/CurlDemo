@@ -15,6 +15,14 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_STL=c++_shared" // 处理报错：UnsatisfiedLinkError: dlopen failed: library "libc++_shared.so" not found: needed by /data/app/~~OVOFJX4Ax4wSvfIoKaTdTQ==/com.sherlockshi.curldemo-da3_3urX-LEzEaElmgi7MQ==/base.apk!/lib/arm64-v8a/libcurl.so in namespace classloader-namespace
+                cppFlags "-frtti -fexceptions"
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
     }
 
     buildTypes {

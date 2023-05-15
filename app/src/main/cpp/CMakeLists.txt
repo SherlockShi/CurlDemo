@@ -23,6 +23,18 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
         native-lib.cpp)
 
+# 将native-lib关联到第三方库头文件
+target_include_directories(curldemo
+        PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/main/cpp/include)
+
+# 导入第三方库,不同的第三方库需要分开导入,因为有三个so库需要导入，所以这里写了三次
+add_library(libcurl SHARED IMPORTED)
+# 设置导入第三方库名称、目标位置
+set_target_properties(libcurl
+        PROPERTIES IMPORTED_LOCATION
+        ${CMAKE_SOURCE_DIR}/../jniLibs/${CMAKE_ANDROID_ARCH_ABI}/libcurl.so)
+
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
@@ -42,6 +54,7 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
         curldemo
+        libcurl
 
         # Links the target library to the log library
         # included in the NDK.
